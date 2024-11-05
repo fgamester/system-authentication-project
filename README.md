@@ -1,8 +1,20 @@
-# React + Vite
+# System Authentication with Python, Flask and React
+## Project for 4GeeksAcademy
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Before run any services, run first the necesary installations:
+```sh
+npm install
+pipenv shell
+pipenv install flask flask-migrate flask-cors flask-jwt-extended flask-sqlalchemy python-dotenv
+```
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+To initiate the server run the next command in a terminal:
+```sh
+python backend\app.py
+```
+
+To initiate the front service run the next command in a terminal:
+```sh
+npm run dev
+```
