@@ -4,10 +4,13 @@
 Antes de ejecutar cualquier servicio, primero ejecuta las instalaciones necesarias:
 ```sh
 npm install
+```
+```sh
 pipenv shell
+```
+```sh
 pipenv install flask flask-migrate flask-cors flask-jwt-extended flask-sqlalchemy python-dotenv
 ```
-
 
 Para iniciar el servidor ejecuta lo siguiente en una terminal:
 ```sh
