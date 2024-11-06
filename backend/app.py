@@ -21,6 +21,9 @@ Migrate(app, db)
 jwt = JWTManager(app)
 CORS(app)
 
+@app.route('/')
+def server_status():
+    return jsonify({'message': 'Server is running'}), 200
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True)
