@@ -1,10 +1,11 @@
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from models import db
 from dotenv import load_dotenv
+from routes.auth import bp_auth
 
 load_dotenv()
 
@@ -20,6 +21,8 @@ db.init_app(app)
 Migrate(app, db)
 jwt = JWTManager(app)
 CORS(app)
+
+app.register_blueprint(bp_auth)
 
 @app.route('/')
 def server_status():
