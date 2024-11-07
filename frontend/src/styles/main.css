@@ -1,3 +1,7 @@
 .pt-nb{
     padding-top: 56px;
 }
+
+.pointer-hover{
+    cursor: pointer;
+}

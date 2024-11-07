@@ -40,7 +40,12 @@ def register():
     user.save()
 
     if user:
-        return jsonify({'status': 'success', 'message': 'User created successfully', 'user': user.serialize()}), 201
+        access_token = create_access_token(identity=user.id, expires_delta=datetime.timedelta(days=1))
+        data = {
+            access_token: access_token,
+            user: user.serialize()
+        }
+        return jsonify({'status': 'success', 'message': 'User created successfully', 'data': data}), 201
 
     return jsonify({'status': 'fail', 'message': 'Register fail, please try later'}), 408
 
@@ -68,7 +73,7 @@ def login():
     if founded_account:
         expire = datetime.timedelta(minutes=5)
         print(expire)
-        access_token = create_access_token(identity=founded_account.id)
+        access_token = create_access_token(identity=founded_account.id, expires_delta=datetime.timedelta(days=1))
         data = {
             'access_token': access_token,
             'user': founded_account.serialize()
@@ -82,12 +87,13 @@ def login():
 @jwt_required()
 def session_recovery():
     user_id = get_jwt_identity()
+    print(user_id)
     user = User.query.filter_by(id=user_id).first()
 
     if not user:
         return jsonify({'status': 'error', 'message': 'Invalid session'}), 403
 
-    return jsonify({'status': 'success', 'message': 'Session validation successfully', 'user': user.serialize()})
+    return jsonify({'status': 'success', 'message': 'Session validated successfully', 'user': user.serialize()})
 
 @bp_auth.route('/password', methods=['PATCH'])
 @jwt_required()
