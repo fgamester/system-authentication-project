@@ -77,6 +77,18 @@ def login():
 
     return jsonify({'status': 'fail', 'message': 'Login fail, please try later'}), 408
 
+
+@bp_auth.route('/session', methods=['GET'])
+@jwt_required()
+def session_recovery():
+    user_id = get_jwt_identity()
+    user = User.query.filter_by(id=user_id).first()
+
+    if not user:
+        return jsonify({'status': 'error', 'message': 'Invalid session'}), 403
+
+    return jsonify({'status': 'success', 'message': 'Session validation successfully', 'user': user.serialize()})
+
 @bp_auth.route('/password', methods=['PATCH'])
 @jwt_required()
 def change_password():
