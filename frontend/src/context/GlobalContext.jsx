@@ -1,8 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
+import { BsCheckLg } from "react-icons/bs";
 export const Context = createContext(null);
 
 export const AppContext = ({ children }) => {
-    const [accessToken, setAccessToken] = useState(null);
+    const [accessToken, setAccessToken] = useState(sessionStorage.access_token || null);
     const [urlAPI] = useState('http://127.0.0.1:5000')
     const [logged, setLogged] = useState(false);
     const [user, setUser] = useState(null);
@@ -19,7 +20,7 @@ export const AppContext = ({ children }) => {
                         }
                     })
                     const data = await response.json();
-                    console.log(data)
+                    console.log(data?.message)
                     setUser(data?.user);
                     setAccessToken(sessionStorage.getItem('access_token'));
                     setLogged(true);
@@ -38,7 +39,7 @@ export const AppContext = ({ children }) => {
                     body: JSON.stringify(credentials)
                 });
                 const data = await response.json();
-                console.log(data)
+                console.log(data?.message)
                 if (data?.data) {
                     sessionStorage.setItem('access_token', data?.data?.access_token);
                     setAccessToken(data?.data?.access_token);
@@ -59,13 +60,30 @@ export const AppContext = ({ children }) => {
                     body: JSON.stringify(credentials)
                 });
                 const data = await response.json();
-                console.log(data)
+                console.log(data?.message)
                 if (data?.data) {
                     sessionStorage.setItem('access_token', data?.data?.access_token);
                     setAccessToken(data?.data?.access_token);
                     setUser(data?.data?.user);
                     setLogged(true);
                 }
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        changePassword: async (passwords) => {
+            try {
+                const response = await fetch(`${urlAPI}/password`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    },
+                    body: JSON.stringify(passwords)
+                });
+                const data = await response.json();
+                console.log(data?.message)
+                return data?.status;
             } catch (error) {
                 console.error(error);
             }

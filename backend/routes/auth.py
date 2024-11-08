@@ -42,8 +42,8 @@ def register():
     if user:
         access_token = create_access_token(identity=user.id, expires_delta=datetime.timedelta(days=1))
         data = {
-            access_token: access_token,
-            user: user.serialize()
+            'access_token': access_token,
+            'user': user.serialize()
         }
         return jsonify({'status': 'success', 'message': 'User created successfully', 'data': data}), 201
 
@@ -71,7 +71,7 @@ def login():
         return jsonify({'status': 'error', 'message': 'Wrong credentials, try again'}), 401
 
     if founded_account:
-        expire = datetime.timedelta(minutes=5)
+        expire = datetime.timedelta(days=1)
         print(expire)
         access_token = create_access_token(identity=founded_account.id, expires_delta=datetime.timedelta(days=1))
         data = {
@@ -95,10 +95,12 @@ def session_recovery():
 
     return jsonify({'status': 'success', 'message': 'Session validated successfully', 'user': user.serialize()})
 
+
 @bp_auth.route('/password', methods=['PATCH'])
 @jwt_required()
 def change_password():
     user_id = get_jwt_identity()
+    print(user_id)
     user = User.query.filter_by(id=user_id).first()
 
     if not user:

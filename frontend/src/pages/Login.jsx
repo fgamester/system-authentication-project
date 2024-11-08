@@ -1,5 +1,6 @@
-import React, { useReducer, useContext, useState } from 'react'
+import React, { useReducer, useContext, useState, useEffect } from 'react'
 import { Context } from '../context/GlobalContext'
+import { useNavigate } from 'react-router-dom'
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -13,8 +14,9 @@ const reducer = (state, action) => {
 }
 
 const Login = () => {
-    const { actions } = useContext(Context)
+    const { actions, user } = useContext(Context)
     const [validated, setValidated] = useState(false)
+    const navigate = useNavigate()
 
     const [credentials, dispatch] = useReducer(reducer, {
         email: '',
@@ -25,12 +27,15 @@ const Login = () => {
         e.preventDefault();
         const form = e.currentTarget;
         if (form.checkValidity() == false) {
-            e.stopPropagation();
             setValidated(true);
         } else {
-            await actions.login(credentials)
+            await actions.login(credentials);
         }
     }
+
+    useEffect(() => {
+        user && navigate('/');
+    }, [user]);
 
     return (
         <div className='container-fluid pt-nb mt-3 d-flex justify-content-center'>
