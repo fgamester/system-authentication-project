@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect } from "react";
-import { BsCheckLg } from "react-icons/bs";
 export const Context = createContext(null);
 
 export const AppContext = ({ children }) => {

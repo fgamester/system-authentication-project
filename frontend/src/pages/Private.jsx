@@ -1,4 +1,4 @@
-import { useReducer, useContext, useState } from "react";
+import { useReducer, useContext, useState, useEffect } from "react";
 import { Context } from "../context/GlobalContext";
 import { useNavigate } from "react-router-dom";
 
@@ -33,6 +33,10 @@ const Private = () => {
             (status == 'success') && navigate('/');
         }
     }
+
+    useEffect(() => {
+        !user && navigate('/login');
+    }, [user]);
 
     return (
         <div className='container-fluid pt-nb mt-3 d-flex justify-content-center'>
